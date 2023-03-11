@@ -136,7 +136,7 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
         var response = confirm("Are you sure to restore?");
 
         if (response) {
-            const ans = await fetch(`http://localhost:5006/all/restore/${id}`)
+            const ans = await fetch(`https://job-app-8xzz.onrender.com/all/restore/${id}`)
             const data = await ans.json();
       
             if (data) {
@@ -171,7 +171,7 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
 
         if (alert_result == true) {
             console.log("i am here");
-            const response = await fetch(`http://localhost:5006/all/restoreall/${ids}`);
+            const response = await fetch(`https://job-app-8xzz.onrender.com/all/restoreall/${ids}`);
             var res = await response.json()
         }
 

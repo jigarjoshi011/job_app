@@ -396,7 +396,7 @@
     var City = document.getElementById("City")
     var state_id = document.getElementById("State").value
     //console.log(state_id);
-    fetch(`http://localhost:5006/all/state/${state_id}`)
+    fetch(`https://job-app-8xzz.onrender.com/all/state/${state_id}`)
         .then(resp => resp.json())
         .then(data => {
             //console.log(data)
@@ -418,7 +418,7 @@
         //console.log(state_id);
         //console.log("selecyt cities");
         try {
-            const selected_State = await fetch(`http://localhost:5006/all/state/${state_id}`);
+            const selected_State = await fetch(`https://job-app-8xzz.onrender.com/all/state/${state_id}`);
             var cities = await selected_State.json();
             //console.log(cities);
             City.innerHTML = '';

@@ -430,7 +430,7 @@
         console.log(state_id);
         console.log("selecyt cities");
         try {
-            const selected_State = await fetch(`http://localhost:5006/all/state/${state_id}`);
+            const selected_State = await fetch(`https://job-app-8xzz.onrender.com/all/state/${state_id}`);
             var cities = await selected_State.json();
             console.log(cities);
             City.innerHTML='';
