@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Data</title>
+</head>
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"> -->
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+    /* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css'); */
+
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 20px;
+    }
+
+    i:hover {
+        cursor: pointer;
+    }
+
+    table {
+        border: 3px solid rgb(0, 82, 106);
+        width: 100%;
+        height: 100%;
+    }
+
+    tr {
+        background-color: rgb(203, 248, 255);
+    }
+
+    th {
+        background-color: rgb(249, 171, 171);
+    }
+
+    td,
+    th {
+        text-align: center;
+        border: 3px solid black;
+    }
+    #Deleted_recs {
+        margin: 30px;
+        background-color: rgb(79, 79, 79);
+        color: aliceblue;
+        font-size: x-large;
+        border-radius: 10px;
+        padding: 10px;
+
+    }
+    #deletehandle{
+        margin: 30px;
+        background-color: rgb(79, 79, 79);
+        color: aliceblue;
+        font-size: x-large;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .faor{
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+<body>
+    <h1 class="he">Welcome to Archive Database</h1>
+
+
+
+
+    <table class="table table-hover">
+        <tbody>
+            <div class="faor" >
+
+                <a id="Deleted_recs" href="/showall">ShowAll</a>
+                <a id="deletehandle" href="">Restore All</a>
+            </div>
+            <tr>
+                <th>Application ID</th>
+                <th>Application Date</th>
+                <th>First Name</th>
+
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Restore</th>
+                <th>Action</th>
+                
+
+            </tr>
+
+            <% for(let i=0; i<ans.length; i++) { %>
+                <tr id="t<%= ans[i].id %>">
+                    <th scope="row">
+                        <%= ans[i].id %>
+                    </th>
+                    <td>
+                        <%= ans[i].created_at.toString().substring(0, 25) %>
+                    </td>
+                    <td>
+                        <%= ans[i].first_name %>
+                            <%= ans[i].last_name %>
+                    </td>
+                    <td>
+                        <%= ans[i].contact_no %>
+                    </td>
+                    <td>
+                        <%= ans[i].address.substring(0, 30) %>...
+                    </td>
+                    <td>
+                        <%= ans[i].email %>
+                    </td>
+                    <td>
+                        <%= ans[i].gender %>
+                    </td>
+                    <td><span><i id="<%= ans[i].id %>" class="bi bi-eye-fill"
+                        onclick="handleRestore(this)">Restore</i></span></td>
+                        <td><i class="bi bi-eye-fill">
+                            <input class="DeleteAll" type="checkbox" name="delete_check" id="<%= ans[i].id %>">
+                </tr>
+                <% } %>
+
+
+        </tbody>
+    </table>
+</body>
+<script>
+    async function handleRestore(eve) {
+        var id = eve.id
+        var response = confirm("Are you sure to restore?");
+
+        if (response) {
+            const ans = await fetch(`http://localhost:5006/all/restore/${id}`)
+            const data = await ans.json();
+      
+            if (data) {
+                // console.log(id);
+                let ele = `t${id}`
+                document.getElementById(ele).style.display='none'
+                // location.reload(true)
+            }
+
+        }
+    }
+    const delete_click = document.getElementById('deletehandle')
+    delete_click.addEventListener('click', async () => {
+        const checkbox = document.querySelectorAll(".DeleteAll")
+        console.log(checkbox);
+        if (checkbox == undefined || checkbox == null) {
+            delete_click.style.opacity = 0;
+
+        }
+        let ids = [];
+        let count = 0;
+        for (let i = 0; i < checkbox.length; i++) {
+            if (checkbox[i].checked) {
+                ids[count] = checkbox[i].id;
+                count++;
+            }
+        }
+
+
+
+        const alert_result = confirm(`Are you want sure to delete id ${ids.toString()} record ?`);
+
+        if (alert_result == true) {
+            console.log("i am here");
+            const response = await fetch(`http://localhost:5006/all/restoreall/${ids}`);
+            var res = await response.json()
+        }
+
+        if (res) {
+            let ele = `t${ids}`
+            var s_id=ids.split(",")
+            console.log(s_id);
+
+            s_id.forEach(element => {
+                
+                document.getElementById(s_id[i]).style.display='none'
+            });
+            // location.reload(true)
+        }
+
+    })
+    
+    
+    
+    </script>
+
+</html>
